@@ -1,0 +1,6 @@
+org\User.class
+org\BaseDomain.class
+org\UserDao.class
+org\HibernateUtil.class
+org\BaseDao.class
+org\UserService.class

@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: org.test.ActorServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! - in org.test.ActorServiceTest
+initializationError(org.test.ActorServiceTest)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.Exception: Method usersList() should be void
+
