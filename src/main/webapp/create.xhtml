@@ -19,7 +19,7 @@
             <div class="form-group">
                 <h:outputLabel for="username" class="control-label col-sm-4">User Name</h:outputLabel>
                 <div class="col-sm-4">
-                    <h:inputText id="name-id" value="#{UserService.name}" class="form-control" validatorMessage="User name is required">
+                    <h:inputText id="name-id" value="#{userService.name}" class="form-control" validatorMessage="User name is required">
                         <f:validateRequired />
                     </h:inputText>
                 </div>
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <h:outputLabel for="email" class="control-label col-sm-4">Your Email</h:outputLabel>
                 <div class="col-sm-4">
-                    <h:inputText id="email-id" value="#{UserService.email}" class="form-control" validatorMessage="Email Id is required">
+                    <h:inputText id="email-id" value="#{userService.email}" class="form-control" validatorMessage="Email Id is required">
                         <f:validateRequired/>
                     </h:inputText>
                 </div>
@@ -35,7 +35,7 @@
             <div class="form-group">
                 <h:outputLabel for="password" class="control-label col-sm-4">Password</h:outputLabel>
                 <div class="col-sm-4">
-                    <h:inputSecret id="password-id" value="#{UserService.password}" class="form-control" validatorMessage="Password is required">
+                    <h:inputSecret id="password-id" value="#{userService.password}" class="form-control" validatorMessage="Password is required">
                         <f:validateRequired/>
                     </h:inputSecret>
                 </div>
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <h:outputLabel for="gender" class="control-label col-sm-4">Gender</h:outputLabel>
                 <div class="col-sm-4">
-                    <h:selectOneRadio value="#{UserService.gender}" validatorMessage="Gender is required">
+                    <h:selectOneRadio value="#{userService.gender}" validatorMessage="Gender is required">
                         <f:selectItem itemValue="M" itemLabel="Male" />
                         <f:selectItem itemValue="F" itemLabel="Female" />
                         <f:validateRequired/>
@@ -53,7 +53,7 @@
             <div class="form-group">
                 <h:outputLabel for="address" class="control-label col-sm-4">Address</h:outputLabel>
                 <div class="col-sm-4">
-                    <h:inputTextarea value="#{UserService.address}" cols="50" rows="5" class="form-control" validatorMessage="Address is required">
+                    <h:inputTextarea value="#{userService.address}" cols="50" rows="5" class="form-control" validatorMessage="Address is required">
                         <f:validateRequired/>
                     </h:inputTextarea>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4">
                     <div class="col-sm-2">
-                        <h:commandButton value="Save" action="#{UserService.save()}" class="btn btn-success" style="width: 80px;"></h:commandButton>
+                        <h:commandButton value="Save" action="#{userService.save()}" class="btn btn-success" style="width: 80px;"></h:commandButton>
                     </div>
                     <div class="col-sm-1">
                     </div>

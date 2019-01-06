@@ -1,14 +1,11 @@
 
 package org;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -30,6 +27,7 @@ public class UserService {
     String gender;
     String address;
     ArrayList usersList ;
+    private Map<String,Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
     
     public int getId() {
         return id;
@@ -74,7 +72,7 @@ public class UserService {
 		try (Session session = sessionFactory.openSession()) {
 			String simpleName = "user";
 			String lowerCaseSimpleName = simpleName.toLowerCase();
-			Query createQuery = session.createQuery("Select " + lowerCaseSimpleName + " From " + simpleName + " " + lowerCaseSimpleName);
+			Query createQuery = session.createQuery("Select user From User user ");
 			return (ArrayList<User>) createQuery.list();
 		} catch (Exception e) {
 			logger.error(e);
@@ -95,64 +93,52 @@ public class UserService {
 			save.setAddress(address);
 			User savedEntity = (User) session.merge((String) null, save);
 			tx2.commit();
-			return "";
+			result = 1;
 		} catch (Exception e) {
+			result = 0;
 			logger.error(e.getMessage());
 		}
-		return null;
+        if(result !=0)
+            return "index.xhtml?faces-redirect=true";
+        else return "create.xhtml?faces-redirect=true";
     }
     // Used to fetch record to update
     public String edit(int id){
-//        User user = null;
-//        System.out.println(id);
-//        try{
-//            connection = getConnection();
-//            Statement stmt=getConnection().createStatement();  
-//            ResultSet rs=stmt.executeQuery("select * from users where id = "+(id));
-//            rs.next();
-//            user = new User();
-//            user.setid(rs.getInt("id"));
-//            user.setname(rs.getString("name"));
-//            user.setEmail(rs.getString("email"));
-//            user.setGender(rs.getString("gender"));
-//            user.setAddress(rs.getString("address"));
-//            user.setPassword(rs.getString("password"));  
-//            System.out.println(rs.getString("password"));
-//            //sessionMap.put("editUser", user);
-//            connection.close();
-//        }catch(Exception e){
-//            System.out.println(e);
-//        }       
+    	
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		try (Session session = sessionFactory.openSession()) {
+			User user = session.find(User.class, id);
+			sessionMap.put("editUser", user);
+		} catch (Exception e) {
+			logger.error(e);
+		}      
         return "/edit.xhtml?faces-redirect=true";
     }
     // Used to update user record
     public String update(User u){
-//        //int result = 0;
-//        try{
-//            connection = getConnection();  
-//            PreparedStatement stmt=connection.prepareStatement("update users set name=?,email=?,password=?,gender=?,address=? where id=?");  
-//            stmt.setString(1,u.getname());  
-//            stmt.setString(2,u.getEmail());  
-//            stmt.setString(3,u.getPassword());  
-//            stmt.setString(4,u.getGender());  
-//            stmt.setString(5,u.getAddress());  
-//            stmt.setInt(6,u.getid());  
-//            stmt.executeUpdate();
-//            connection.close();
-//        }catch(Exception e){
-//            System.out.println();
-//        }
+    	
+        int result = 0;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		try (Session session = sessionFactory.openSession()) {
+			Transaction tx2 = session.beginTransaction();
+			session.update(u);
+			tx2.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
         return "/index.xhtml?faces-redirect=true";      
     }
     // Used to delete user record
     public void delete(int id){
-//        try{
-//            connection = getConnection();  
-//            PreparedStatement stmt = connection.prepareStatement("delete from users where id = "+id);  
-//            stmt.executeUpdate();  
-//        }catch(Exception e){
-//            System.out.println(e);
-//        }
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		try (Session session = sessionFactory.openSession()) {
+			Transaction tx2 = session.beginTransaction();
+			User user = session.find(User.class, id);
+			session.delete(user);
+			tx2.commit();
+		} catch (Exception e) {
+			logger.error(e);
+		}
     }
     // Used to set user gender
     public String getGenderName(char gender){
